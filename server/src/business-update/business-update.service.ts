@@ -7,7 +7,7 @@ export class BusinessUpdateService {
   constructor(private readonly businessService: BusinessService) {}
 
   async getAllPlaceIDs(): Promise<string[]> {
-    const pipeline = [{ $match: {} }]
+    const pipeline = [{ $match: { override: false } }]
     try {
       const { businesses } = await this.businessService.findAll({}, pipeline)
       const businessPlaceIDList = businesses.map((business) =>
