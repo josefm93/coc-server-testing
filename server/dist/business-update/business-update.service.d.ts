@@ -6,4 +6,7 @@ export declare class BusinessUpdateService {
     getAllPlaceIDs(): Promise<string[]>;
     updateBusinessDataFromPlaces(placeID: string): Promise<Business>;
     mergeOldWithUpdate(update: Business, old: Business): Business;
+    readPlaceIDsFromFile(): string[];
+    writeBusinessData(placeID: string): Promise<any>;
+    getAllBusinesses(): Promise<void>;
 }

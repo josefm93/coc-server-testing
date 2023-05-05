@@ -1,9 +1,30 @@
-import { Controller, Get } from '@nestjs/common'
+import { Controller, Get, Param } from '@nestjs/common'
 import { BusinessUpdateService } from './business-update.service'
 
 @Controller('business-update')
 export class BusinessUpdateController {
   constructor(private readonly businessUpdateService: BusinessUpdateService) {}
+
+  @Get('/write-from-file/')
+  async getHello(): Promise<void> {
+    try {
+      const placeIDs = this.businessUpdateService.readPlaceIDsFromFile()
+      for (const placeID of placeIDs) {
+        await this.businessUpdateService.writeBusinessData(placeID)
+      }
+    } catch (error) {
+      console.error('Error reading file: ' + error)
+    }
+  }
+
+  @Get('/write/:id')
+  async write(@Param('id') placeID: string): Promise<void> {
+    try {
+      await this.businessUpdateService.writeBusinessData(placeID)
+    } catch (error) {
+      console.error('Error writing business: ' + error)
+    }
+  }
 
   @Get()
   async update(): Promise<{
